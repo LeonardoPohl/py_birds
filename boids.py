@@ -177,6 +177,7 @@ dark_grey = (50, 50, 50)
 screen = pygame.display.set_mode(size)
 #pygame.display.toggle_fullscreen()
 #pool = multiprocessing.Pool(4)
+limit = False
 if __name__ == '__main__': 
     #pool = multiprocessing.Pool(1)
     while 1:
@@ -187,10 +188,13 @@ if __name__ == '__main__':
                     new_bird = bird(np.array(pygame.mouse.get_pos()), center)
                     birds.append(new_bird)
                 elif event.button == 2:
-                    new_bird = bird(np.array(pygame.mouse.get_pos()), center, True)
-                    birds.append(new_bird)
+                    if not limit:
+                        new_bird = bird(np.array(pygame.mouse.get_pos()), center, True)
+                        birds.append(new_bird)
+                        limit = True
                 elif event.button == 3:
-                    birds.pop(0)
+                    if birds.pop(0).mouse_controlled:
+                        limit = False
         
         screen.fill(dark_grey)
         #pygame.draw.circle(screen,(100,20,20), center.astype(int), 10, 1)
